@@ -19,7 +19,13 @@ describe('DashboardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ 
         DashboardComponent, 
-        HeroSearchComponent]
+        HeroSearchComponent],
+        imports: [
+          RouterTestingModule.withRoutes([])
+        ],
+        providers: [
+          { provide: HeroService, useValue: heroService }
+        ]
     })
     .compileComponents();
   });
@@ -30,7 +36,19 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display "Top Heroes" as headline', () => {
+    expect(fixture.nativeElement.querySelector('h3').textContent).toEqual('Top Heroes');
+  })
+
+  it('should call heroService', async(() => {
+    expect(getHeroesSpy.calls.any()).toBe(true)
+  }))
+
+  it('should display 4 links', async(() => {
+    expect(fixture.nativeElement.querySelectorAll('a').length).toEqual(4)
+  }));
 });
